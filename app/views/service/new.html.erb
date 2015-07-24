@@ -1,0 +1,8 @@
+<h1>Available Services</h1>
+<br><br>
+<ul>
+<% @services.each do |service| %>
+	<% link_url = '/places/' + params[:id] + '/' + service.identifier + '_services/new' %>
+	<li><%= link_to service.name, link_url %></li>
+<%end %>
+</ul>

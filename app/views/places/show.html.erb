@@ -1,0 +1,70 @@
+<%- model_class = Place -%>
+<link href='https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-draw/v0.2.2/leaflet.draw.css' rel='stylesheet' />
+<script src='https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-draw/v0.2.2/leaflet.draw.js'></script>
+<script src='https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-geodesy/v0.1.0/leaflet-geodesy.js'></script>
+
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.titleize %></h1>
+</div>
+
+  <input type="hidden" value="<%= @place.coordinates %>" name="place[coordinates]" id="place_coordinates">
+  <input type="hidden" value="<%= @place.center_lat %>" id="place_center_lat">
+  <input type="hidden" value="<%= @place.center_lng %>" id="place_center_lng">
+
+<%= link_to t('.back', :default => t("helpers.links.back")),
+              places_path, :class => 'btn btn-default'  %>
+<%= link_to t('.edit', :default => t("helpers.links.edit")),
+              edit_place_path(@place), :class => 'btn btn-default' %>
+<%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+              place_path(@place),
+              :method => 'delete',
+              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+              :class => 'btn btn-danger' %>
+
+
+<div id="map-container">
+  <div id="map-canvas"></div>
+</div>
+
+<script src='https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.2.0/leaflet-omnivore.min.js'></script>
+<script>
+L.mapbox.accessToken = 'pk.eyJ1Ijoiamp1bmUwMDEiLCJhIjoiMDBkOTZlMmRiZTQ1M2ZiZTdmOTA5YjNmYWU0NmM4MGEifQ.2R72JqPjQ03-LgYMWKARKw';
+
+var center_coordinates_x = $(place_center_lat).val()
+var center_coordinates_y = $(place_center_lng).val()
+var coordinates = $(place_coordinates).val()
+var map = L.mapbox.map('map-container', 'mapbox.streets')
+  .setView([center_coordinates_y, center_coordinates_x], 14);
+omnivore.wkt.parse(coordinates).addTo(map);
+    
+</script>
+<br><br>
+<dl class="dl-horizontal">
+  <dt><strong><%= model_class.human_attribute_name(:name) %>:</strong></dt>
+  <dd><%= @place.name %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:description) %>:</strong></dt>
+  <dd><%= @place.description %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:coordinates) %>:</strong></dt>
+  <dd><%= @place.coordinates %></dd>
+  
+  <dt><strong>Services</dt>
+    <dd><%= link_to 'Add Service', '/service/new/' + params[:id] %></dd>
+    <br>
+    <dd>
+      <ul class="list-group">
+      <% @services.each do |service| %>
+        <li class="list-group-item">
+        <%= link_to get_service_name(service.service_id, service.service_type_id), :controller => 'website_services', :action => 'show', :id => service.service_id %>
+
+
+        
+        
+        </li>
+      <% end %>
+       </ul>
+    </dd>
+
+</dl>
+
+
+
