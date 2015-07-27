@@ -20,9 +20,12 @@ ActiveRecord::Schema.define(version: 20150710194903) do
   create_table "place_services", force: :cascade do |t|
     t.integer  "place_id"
     t.integer  "service_type_id"
+    t.string   "service_name"
+    t.string   "service_short_description"
+    t.string   "service_category"
     t.integer  "service_id"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
   end
 
   add_index "place_services", ["place_id"], name: "index_place_services_on_place_id", using: :btree

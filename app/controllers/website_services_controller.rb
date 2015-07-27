@@ -32,7 +32,9 @@ class WebsiteServicesController < ApplicationController
       if @website_service.save
 
           @place_service.place_id = @website_service.place_id
-          @place_service.service_type_id = 1
+          @place_service.service_name = @website_service.name
+          @place_service.service_short_description = @website_service.description
+          @place_service.service_type_id = 1  #TODO: should pass the correct service type
           @place_service.service_id = @website_service.id
           @place_service.save
 
