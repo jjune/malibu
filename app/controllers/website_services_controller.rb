@@ -82,11 +82,12 @@ class WebsiteServicesController < ApplicationController
   # DELETE /website_services/1
   # DELETE /website_services/1.json
   def destroy
+    PlaceService.destroy_all('service_type_id = 1 and service_id =' + params[:id].to_s)
     @website_service.destroy
-
     respond_to do |format|
       
-      format.html { redirect_to website_services_url, notice: 'Website service was successfully destroyed.' }
+
+      format.html { redirect_to '/places/' + @website_service.place_id.to_s, notice: 'Website service was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
