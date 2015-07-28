@@ -4,16 +4,16 @@
 </div>
 
 <dl class="dl-horizontal">
-  <dt><strong><%= model_class.human_attribute_name(:place_id) %>:</strong></dt>
-  <dd><%= @website_service.place_id %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:name) %>:</strong></dt>
+  <dd><%= @website_service.name %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:description) %>:</strong></dt>
+  <dd><%= @website_service.description %></dd>
   <dt><strong><%= model_class.human_attribute_name(:redirect_url) %>:</strong></dt>
   <dd><%= @website_service.redirect_url %></dd>
 </dl>
 
-<%= link_to t('.back', :default => t("helpers.links.back")),
-              website_services_path, :class => 'btn btn-default'  %>
-<%= link_to t('.edit', :default => t("helpers.links.edit")),
-              edit_website_service_path(@website_service), :class => 'btn btn-default' %>
+<%= link_to('Edit', '/places/' + params[:place_id] + '/website_services/' + params[:id] + '/edit', :class => 'btn btn-default') %>
+
 <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
               website_service_path(@website_service),
               :method => 'delete',

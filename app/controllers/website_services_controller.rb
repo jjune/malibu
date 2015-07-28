@@ -50,10 +50,27 @@ class WebsiteServicesController < ApplicationController
 
   # PATCH/PUT /website_services/1
   # PATCH/PUT /website_services/1.json
+
+  def edit
+    @place = Place.find_by_id(params[:place_id])
+  end
+
   def update
+
+   @service_details = website_service_params
+   @place_service = PlaceService.find_by service_id: params[:id], service_type: 1
+
+   #TODO: service_type should not be hard coded
+
     respond_to do |format|
       if @website_service.update(website_service_params)
-        format.html { redirect_to @website_service, notice: 'Website service was successfully updated.' }
+
+        @place_service.service_name = @website_service.name
+        @place_service.service_short_description = @website_service.description
+        @place_service.service_category = ''
+        @place_service.save
+
+        format.html { redirect_to '/places/' + @website_service.place_id.to_s, notice: 'Website service was successfully updated.' }
         format.json { render :show, status: :ok, location: @website_service }
       else
         format.html { render :edit }
@@ -66,9 +83,9 @@ class WebsiteServicesController < ApplicationController
   # DELETE /website_services/1.json
   def destroy
     @website_service.destroy
-    PlaceService.delete_all("place_id = ")
 
     respond_to do |format|
+      
       format.html { redirect_to website_services_url, notice: 'Website service was successfully destroyed.' }
       format.json { head :no_content }
     end

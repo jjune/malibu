@@ -54,10 +54,7 @@ omnivore.wkt.parse(coordinates).addTo(map);
       <ul class="list-group">
       <% @services.each do |service| %>
         <li class="list-group-item">
-        <%= link_to get_service_name(service.service_id, service.service_type_id), :controller => 'website_services', :action => 'show', :id => service.service_id %>
-
-
-        
+        <%= link_to get_service_name(service.service_id, service.service_type_id), '/places/' + @place.id.to_s + "/website_services/" + service.service_id.to_s %>
         
         </li>
       <% end %>
